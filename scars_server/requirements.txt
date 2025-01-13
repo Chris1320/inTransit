@@ -49,5 +49,5 @@ typer==0.15.1
 typing-extensions==4.12.2
 uvicorn==0.34.0
 uvloop==0.21.0 ; platform_python_implementation != 'PyPy' and sys_platform != 'cygwin' and sys_platform != 'win32'
-watchfiles==1.0.3
+watchfiles==1.0.4
 websockets==14.1
