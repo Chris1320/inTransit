@@ -2,18 +2,25 @@
 
 inTransit is a School Canteen Automated Reporting System.
 
+![Frontend Tests](https://github.com/Chris1320/inTransit/actions/workflows/frontend.yml/badge.svg)
+![Super Linter](https://github.com/Chris1320/inTransit/actions/workflows/super-linter.yml/badge.svg)
+
 ## Development
 
 **Stack**:
 
 - [Next.js](https://nextjs.org/)
-- [Python](https://www.python.org/)
+  - [Chakra UI](https://www.chakra-ui.com/)
 - [Firebase](https://firebase.google.com/)
+  - [Authentication](https://firebase.google.com/docs/auth)
+  - [Firestore](https://firebase.google.com/docs/firestore)
+  - [Functions](https://firebase.google.com/docs/functions)
+    - [Python](https://www.python.org/)
 
 **Project Management Software**:
 
 - Node.js: [nvm](https://github.com/nvm-sh/nvm)/[nvm for Windows](https://github.com/coreybutler/nvm-windows)
-- Python: [uv](https://astral.sh/uv)
+- Python: [uv](https://astral.sh/uv) & [pip](https://pip.pypa.io/en/stable/)
 
 ### Development Environment Installation & Setup
 
@@ -21,7 +28,7 @@ Follow the steps below to set up your development environment on Windows or Linu
 
 #### 1. Install Package Managers and Related Software
 
-The central server uses [Python](https://python.org/) and the FastAPI framework, and uses [uv](https://astral.sh/uv) to manage the project. [nvm-windows](https://github.com/coreybutler/nvm-windows) is recommended to be used to install and manage Node. [Firebase CLI](https://firebase.google.com/docs/cli/) is uesd to manage the Firebase project.
+The central server is hosted on Google [Firebase](https://firebase.google.com/). [nvm-windows](https://github.com/coreybutler/nvm-windows) is recommended to be used to install and manage Node. [Python](https://python.org/) is used to test Firebase functions.
 
 > [!CAUTION]
 > Make sure to remove previous installations of Python and NodeJS before proceeding. If you are certain that there are no traces left of the previous installation (i.e., leftover configuration files), you can perform the following commands:
@@ -29,14 +36,13 @@ The central server uses [Python](https://python.org/) and the FastAPI framework,
 ```powershell
 git clean -dfx
 git restore .
+
 winget install astral-sh.uv
 uv python install 3.13.1
 winget install CoreyButler.NVMforWindows
 nvm install 23.6.1
 nvm use 23.6.1
-
 npm install -g firebase-tools
-firebase init  # Use existing project
 
 # Confirm successful installation of packages
 python --version  # Python 3.13.1
@@ -50,15 +56,14 @@ npm --version     # 10.9.2
 ```bash
 git clean -dfx
 git restore .
+
 sudo apt update && sudo apt install curl
 curl -LsSf https://astral.sh/uv/install.sh | sh
 uv python install 3.12.8
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 nvm install 23.6.1
 nvm use 23.6.1
-
 npm install -g firebase-tools
-firebase init  # Use existing project
 
 # Confirm successful installation of packages
 python --version  # Python 3.13.1
@@ -70,7 +75,7 @@ You should add nvm's init script to your `.profile` to make sure that the node p
 
 #### 2. Visual Studio Code
 
-Any IDE could work, but using Visual Studio Code is recommended. It is recommended to install the following extenions:
+Any IDE would work, but using [Visual Studio Code](https://code.visualstudio.com/) is recommended. It is also recommended to install the following extensions:
 
 - Black Formatter
 - ES7+ React/Redux/React-Native snippets
@@ -84,13 +89,13 @@ Any IDE could work, but using Visual Studio Code is recommended. It is recommend
 - JavaScript (ES6) code snippets
 - Path Intellisense
 - Prettier - Code formatter
-  - Set *print width*  to `120` in preferences.
-  - Set *tab width* to `4` in preferences.
+  - Set _print width_ to `120` in preferences.
+  - Set _tab width_ to `4` in preferences.
 - Pylance
 - Pylint
-  - Set *import strategy* to `fromEnvironment` in preferences.
+  - Set _import strategy_ to `fromEnvironment` in preferences.
 - Python
-  - Enable *Pytest Enabled* in preferences.
+  - Enable _Pytest Enabled_ in preferences.
 - Python Debugger
 - Tailwind CSS IntelliSense
 
@@ -104,12 +109,11 @@ To make sure that every collaborator has the same environment, execute the follo
 In the project root, run the following:
 
 ```powershell
-uv sync
-```
+python -m venv .\functions\venv
+.\functions\venv\Scripts\Activate.ps1
+pip install -r .\functions\requirements.txt
 
-In the frontend, run the following:
-
-```powershell
+cd .\intransit
 npm install
 ```
 
@@ -117,12 +121,10 @@ npm install
 
 ```powershell
 firebase emulators:start
-pytest
-fastapi dev scars_server
 ```
 
 ```powershell
 node run dev
 ```
 
-Make sure all services are both accessible locally.
+Make sure all services are accessible locally.

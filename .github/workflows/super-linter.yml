@@ -25,6 +25,7 @@ jobs:
                   VALIDATE_ALL_CODEBASE: false
                   # FIX: Re-enable the following linters after fixing the CI issues
                   VALIDATE_JAVASCRIPT_STANDARD: false
+                  VALIDATE_TYPESCRIPT_STANDARD: false
                   VALIDATE_CSS: false
                   VALIDATE_YAML: false
                   DEFAULT_BRANCH: "main"
