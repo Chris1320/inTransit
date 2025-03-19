@@ -14,7 +14,7 @@ import { Program } from "@/lib/info";
 import { checkServerStatus } from "@/lib/utils";
 
 export default function Home() {
-    const [passwordHiddenState, setPasswordHiddenState] = useState(true);
+    const [password_hidden_state, setPasswordHiddenState] = useState(true);
     const router = useRouter();
 
     // TODO: Should this be in a useEffect? Find a way to perform this logic in all pages
@@ -39,7 +39,6 @@ export default function Home() {
 
         fetchData();
     }, [router]);
-
     /**
      * Attempt authentication with the provided form values.
      * @param values The form values.
@@ -66,7 +65,7 @@ export default function Home() {
      */
     function togglePasswordVisibility(event: React.MouseEvent<HTMLButtonElement>): void {
         event.preventDefault();
-        setPasswordHiddenState(!passwordHiddenState);
+        setPasswordHiddenState(!password_hidden_state);
     }
 
     return (
@@ -82,7 +81,7 @@ export default function Home() {
                         <LoginForm
                             submitUserLogin={submitUserLogin}
                             togglePasswordVisibility={togglePasswordVisibility}
-                            passwordHiddenState={passwordHiddenState}
+                            passwordHiddenState={password_hidden_state}
                         />
                     </Card>
                 </div>
