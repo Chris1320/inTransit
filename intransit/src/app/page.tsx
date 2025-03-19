@@ -12,8 +12,10 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { auth, contactFunction } from "@/lib/firebase";
 import { Program } from "@/lib/info";
 import { checkServerStatus } from "@/lib/utils";
+import { useAuth } from "@/lib/authentication";
 
 export default function Home() {
+    const { login } = useAuth();
     const [password_hidden_state, setPasswordHiddenState] = useState(true);
     const router = useRouter();
 
@@ -48,6 +50,7 @@ export default function Home() {
             .then((userCredential) => {
                 const user = userCredential.user;
                 toast(`Successfully logged in as ${user.email}`);
+                login();
                 router.push("/dashboard");
                 console.log(user);
             })

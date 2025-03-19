@@ -16,7 +16,12 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [timeout_id, setTimeoutId] = useState<ReturnType<typeof setTimeout> | null>(null);
     const [is_authenticated, setIsAuthenticated] = useState<boolean>(() => {
-        const stored_auth_state = localStorage.getItem("isAuthenticated");
+        if (typeof window === "undefined") {
+            console.log("Window is undefined");
+            return false;
+        }
+        console.log("Window is defined");
+        const stored_auth_state = localStorage.getItem(AuthenticationSettings.ls_uia_name);
         return stored_auth_state === "true";
     });
 
@@ -24,11 +29,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const login = () => {
         setIsAuthenticated(true);
         localStorage.setItem(AuthenticationSettings.ls_uia_name, "true");
+
         startLogoutTimer();
     };
 
     /// Log the user out
     const logout = () => {
+        console.log("Logging out");
         setIsAuthenticated(false);
         localStorage.removeItem(AuthenticationSettings.ls_uia_name);
         if (timeout_id) {
@@ -38,9 +45,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     /// Start the logout timer
     const startLogoutTimer = () => {
+        console.log("Starting logout timer");
         if (timeout_id) {
+            console.log("Clearing existing timeout");
             clearTimeout(timeout_id);
         }
+        console.log("Setting new timeout");
         const newTimeoutId = setTimeout(() => {
             logout();
             alert("You have been logged out due to inactivity.");
@@ -71,5 +81,6 @@ export function useAuth(): AuthContextType {
     if (!ctx) {
         throw new Error("useAuth must be used within an AuthProvider");
     }
+    console.log(ctx);
     return ctx;
 }

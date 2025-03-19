@@ -2,11 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useAuth } from "@/lib/authentication";
 
 export default function LogoutPage() {
+    const { logout } = useAuth();
     const router = useRouter();
     useEffect(() => {
-        localStorage.removeItem("user");
+        logout();
         router.push("/");
     }, [router]);
     return (

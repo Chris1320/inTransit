@@ -2,12 +2,13 @@
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
-import { useAuth } from "@/lib/authentication";
+import { AuthProvider, useAuth } from "@/lib/authentication";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const { is_authenticated } = useAuth();
+    console.log("is_authenticated", is_authenticated);
     const router = useRouter();
 
     useEffect(() => {
@@ -21,10 +22,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     }
 
     return (
-        <SidebarProvider>
-            <AppSidebar />
-            <SidebarTrigger />
-            <main className="flex flex-col flex-1 m-24">{children}</main>
-        </SidebarProvider>
+        <AuthProvider>
+            <SidebarProvider>
+                <AppSidebar />
+                <SidebarTrigger />
+                <main className="flex flex-col flex-1 m-24">{children}</main>
+            </SidebarProvider>
+        </AuthProvider>
     );
 }
