@@ -1,5 +1,7 @@
+"use client";
+
 import React, { createContext, useState, useContext, useEffect, ReactNode } from "react";
-import { Authentication } from "@/lib/info";
+import { AuthenticationSettings } from "@/lib/info";
 
 interface AuthContextType {
     is_authenticated: boolean; // Whether the user is authenticated
@@ -11,7 +13,7 @@ interface AuthProviderProps {
 }
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }): React.FC<AuthProviderProps> {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [timeout_id, setTimeoutId] = useState<ReturnType<typeof setTimeout> | null>(null);
     const [is_authenticated, setIsAuthenticated] = useState<boolean>(() => {
         const stored_auth_state = localStorage.getItem("isAuthenticated");
@@ -19,32 +21,32 @@ export function AuthProvider({ children }): React.FC<AuthProviderProps> {
     });
 
     /// Log the user in
-    function login() {
+    const login = () => {
         setIsAuthenticated(true);
-        localStorage.setItem(Authentication.ls_uia_name, "true");
+        localStorage.setItem(AuthenticationSettings.ls_uia_name, "true");
         startLogoutTimer();
-    }
+    };
 
     /// Log the user out
-    function logout() {
+    const logout = () => {
         setIsAuthenticated(false);
-        localStorage.removeItem(Authentication.ls_uia_name);
+        localStorage.removeItem(AuthenticationSettings.ls_uia_name);
         if (timeout_id) {
             clearTimeout(timeout_id);
         }
-    }
+    };
 
     /// Start the logout timer
-    function startLogoutTimer() {
+    const startLogoutTimer = () => {
         if (timeout_id) {
             clearTimeout(timeout_id);
         }
         const newTimeoutId = setTimeout(() => {
             logout();
             alert("You have been logged out due to inactivity.");
-        }, Authentication.default_timeout);
+        }, AuthenticationSettings.default_timeout);
         setTimeoutId(newTimeoutId);
-    }
+    };
 
     /// Set up the logout timer when the user is authenticated
     useEffect(() => {
@@ -60,7 +62,7 @@ export function AuthProvider({ children }): React.FC<AuthProviderProps> {
     }, [is_authenticated]);
 
     return <AuthContext.Provider value={{ is_authenticated, login, logout }}>{children}</AuthContext.Provider>;
-}
+};
 
 /// Hook to access the authentication context.
 // This hook is used to access the authentication context in a component
