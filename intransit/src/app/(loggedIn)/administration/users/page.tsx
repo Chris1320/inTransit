@@ -39,7 +39,7 @@ export default function UsersPage() {
             </div>
             <Table className="table-hover">
                 <TableCaption>Users</TableCaption>
-                
+
                 <TableHeader>
                     <TableRow>
                         <TableHead className="w-[100px]"></TableHead>
@@ -56,17 +56,23 @@ export default function UsersPage() {
                 <TableBody>
                     {users.map((user) => (
                         <TableRow key={user.uid}>
-                            <TableCell><Checkbox /></TableCell>
-                            <TableCell className="font-medium">user.employee_id</TableCell>
-                            <TableCell className="font-medium">user.first_name</TableCell>
-                            <TableCell className="font-medium">user.middle_name</TableCell>
-                            <TableCell className="font-medium">user.last_name</TableCell>
-                            <TableCell>user.email</TableCell>
-                            <TableCell>user.user_level</TableCell>
-                            <TableCell>user.department</TableCell> {/* New cell */}
+                            <TableCell>
+                                <Checkbox />
+                            </TableCell>
+                            <TableCell className="font-medium">{user.uid}</TableCell>
+                            <TableCell className="font-medium">N/A</TableCell>
+                            <TableCell className="font-medium">N/A</TableCell>
+                            <TableCell className="font-medium">N/A</TableCell>
+                            <TableCell>{user.email}</TableCell>
+                            <TableCell>{user.user_level}</TableCell>
+                            <TableCell>{user.department}</TableCell> {/* New cell */}
                             <TableCell className="text-right1">
-                                <Button variant="icon"><Edit /></Button>
-                                <Button variant="icon"><Trash /></Button>
+                                <Button variant="icon">
+                                    <Edit />
+                                </Button>
+                                <Button variant="icon">
+                                    <Trash />
+                                </Button>
                             </TableCell>
                         </TableRow>
                     ))}
