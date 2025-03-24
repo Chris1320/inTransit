@@ -24,14 +24,21 @@ inTransit is a School Canteen Automated Reporting System.
 
 ### Development Environment Installation & Setup
 
-Follow the steps below to set up your development environment on Windows or Linux systems. It assumes that you have a terminal open in the project's root directory.
+Follow the steps below to set up your development environment on Windows or Linux
+systems. It assumes that you have a terminal open in the project's root directory.
 
 #### 1. Install Package Managers and Related Software
 
-The central server is hosted on Google [Firebase](https://firebase.google.com/). [nvm-windows](https://github.com/coreybutler/nvm-windows) is recommended to be used to install and manage Node. [Python](https://python.org/) is used to test Firebase functions.
+The central server is hosted on Google [Firebase](https://firebase.google.com/).
+[nvm-windows](https://github.com/coreybutler/nvm-windows) is recommended to be
+used to install and manage Node. [Python](https://python.org/) is used to test
+Firebase functions.
 
 > [!CAUTION]
-> Make sure to remove previous installations of Python and NodeJS before proceeding. If you are certain that there are no traces left of the previous installation (i.e., leftover configuration files), you can perform the following commands:
+> Make sure to remove previous installations of Python and NodeJS before
+> proceeding. If you are certain that there are no traces left of the previous
+> installation (i.e., leftover configuration files), you can perform the
+> following commands:
 
 ```powershell
 git clean -dfx
@@ -51,7 +58,8 @@ npm --version     # 10.9.2
 ```
 
 > [!NOTE]
-> The commands below assumes that your Linux distribution is using `apt` as your package manager.
+> The commands below assumes that your Linux distribution is using `apt` as your
+> package manager.
 
 ```bash
 git clean -dfx
@@ -71,11 +79,13 @@ node --version    # v23.6.1
 npm --version     # 10.9.2
 ```
 
-You should add nvm's init script to your `.profile` to make sure that the node path is always loaded.
+You should add nvm's init script to your `.profile` to make sure that the node
+path is always loaded.
 
 #### 2. Visual Studio Code
 
-Any IDE would work, but using [Visual Studio Code](https://code.visualstudio.com/) is recommended. It is also recommended to install the following extensions:
+Any IDE would work, but using [Visual Studio Code](https://code.visualstudio.com/)
+is recommended. It is also recommended to install the following extensions:
 
 - Black Formatter
 - ES7+ React/Redux/React-Native snippets
@@ -101,10 +111,12 @@ Any IDE would work, but using [Visual Studio Code](https://code.visualstudio.com
 
 #### 3. Replicate Environment Setup
 
-To make sure that every collaborator has the same environment, execute the following commands:
+To make sure that every collaborator has the same environment, execute the
+following commands:
 
 > [!CAUTION]
-> Some of the commands below are **destructive**. Make sure to commit your changes or they will be gone!
+> Some of the commands below are **destructive**. Make sure to commit your
+> changes or they will be gone!
 
 In the project root, run the following:
 
