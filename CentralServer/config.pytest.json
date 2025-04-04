@@ -1,0 +1,31 @@
+{
+  "debug": {
+    "enabled": true,
+    "use_test_db": true
+  },
+  "logging": {
+    "filepath": "./logs/centralserver-pytest-{0}.log",
+    "max_bytes": 10485760,
+    "backup_count": 5,
+    "encoding": "utf-8",
+    "log_format": "%(asctime)s:%(name)s:%(levelname)s:%(message)s",
+    "date_format": "%d-%m-%y_%H-%M-%S"
+  },
+  "database": {
+    "db_type": "mysql",
+    "db_driver": "pymysql",
+    "username": "root",
+    "password": "",
+    "host": "localhost",
+    "port": 3306,
+    "database": "projectscars"
+  },
+  "test_database": {
+    "filepath": "./tests/data/pytest.db"
+  },
+  "authentication": {
+    "secret_key": "4588c2e00e23a399548dcf24f731a162f7e1241cf1b7bbce4ee9a00a915b7c5e",
+    "algorithm": "HS256",
+    "access_token_expire_minutes": 30
+  }
+}

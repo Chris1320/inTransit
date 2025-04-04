@@ -1,0 +1,31 @@
+{
+  "debug": {
+    "enabled": true,
+    "use_test_db": true
+  },
+  "logging": {
+    "filepath": "./logs/centralserver-{0}.log",
+    "max_bytes": 10485760,
+    "backup_count": 5,
+    "encoding": "utf-8",
+    "log_format": "%(asctime)s:%(name)s:%(levelname)s:%(message)s",
+    "date_format": "%d-%m-%y_%H-%M-%S"
+  },
+  "database": {
+    "db_type": "mysql",
+    "db_driver": "pymysql",
+    "username": "root",
+    "password": "",
+    "host": "localhost",
+    "port": 3306,
+    "database": "projectscars"
+  },
+  "test_database": {
+    "filepath": "./tests/data/test.db"
+  },
+  "authentication": {
+    "secret_key": "UPDATE_THIS_VALUE",
+    "algorithm": "HS256",
+    "access_token_expire_minutes": 30
+  }
+}

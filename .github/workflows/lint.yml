@@ -1,29 +1,105 @@
-# This workflow executes several linters on changed files based on languages
-# used in your code base whenever you push a code or open a pull request.
-#
-# You can adjust the behavior by modifying this file.
-# For more information, see:
-# https://github.com/github/super-linter
 ---
-name: Lint Codebase
+name: Codebase Style
 
-on: ["push", "pull_request"]
+on: ["pull_request"]
+
 jobs:
-  run-lint:
+  lint-central_server:
     runs-on: ubuntu-latest
+    env:
+      target_dirs: ./centralserver ./tests
+      UV_CACHE_DIR: /tmp/.uv-cache
+
+    defaults:
+      run:
+        working-directory: ./CentralServer
+
+    strategy:
+      matrix:
+        python-versions: [3.13]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          # Full git history is needed to get a proper list of changed
-          # files within `super-linter`
-          fetch-depth: 0
 
-      - name: Lint Codebase
-        uses: github/super-linter@v4
-        env:
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: "main"
-          VALIDATE_CSS: false # we're not using stylelint
-          VALIDATE_TYPESCRIPT_STANDARD: false
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.5.24"
+
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Restore uv cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.UV_CACHE_DIR }}
+          key: uv-${{ runner.os }}-${{ hashFiles('CentralServer/uv.lock') }}
+          restore-keys: |
+            uv-${{ runner.os }}-${{ hashFiles('CentralServer/uv.lock') }}
+            uv-${{ runner.os }}
+
+      - name: Install project
+        run: uv sync --all-extras
+
+      - name: Lint Codebase using pylint
+        run: uv run pylint --disable=C0114,C0115,C0116 --fail-under=9 $target_dirs
+
+      - name: Check coding style using black
+        run: uv run black --check --verbose $target_dirs
+
+      - name: Check imports organization using isort
+        run: uv run isort --check-only --diff --profile black $target_dirs
+
+      - name: Minimize uv cache
+        run: uv cache prune --ci
+
+  lint-local_server:
+    runs-on: ubuntu-latest
+    env:
+      target_dirs: ./localserver ./tests
+      UV_CACHE_DIR: /tmp/.uv-cache
+
+    defaults:
+      run:
+        working-directory: ./LocalServer
+
+    strategy:
+      matrix:
+        python-versions: [3.13]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.5.24"
+
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Restore uv cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.UV_CACHE_DIR }}
+          key: uv-${{ runner.os }}-${{ hashFiles('LocalServer/uv.lock') }}
+          restore-keys: |
+            uv-${{ runner.os }}-${{ hashFiles('LocalServer/uv.lock') }}
+            uv-${{ runner.os }}
+
+      - name: Install project
+        run: uv sync --all-extras
+
+      - name: Lint Codebase using pylint
+        run: uv run pylint --disable=C0114,C0115,C0116 --fail-under=9 $target_dirs
+
+      - name: Check coding style using black
+        run: uv run black --check --verbose $target_dirs
+
+      - name: Check imports organization using isort
+        run: uv run isort --check-only --diff --profile black $target_dirs
+
+      - name: Minimize uv cache
+        run: uv cache prune --ci
